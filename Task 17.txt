@@ -1,0 +1,58 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class SnapdealLoginVerification {
+    public static void main(String[] args) {
+        // Set the path of the ChromeDriver executable
+        System.setProperty("webdriver.chrome.driver", "path_to_chromedriver");
+
+        // Create an instance of ChromeDriver
+        WebDriver driver = new ChromeDriver();
+
+        // Open Snapdeal website
+        driver.get("https://www.snapdeal.com");
+
+        // Maximize the browser window
+        driver.manage().window().maximize();
+
+        // Locate the Sign In button and perform mouse hover action
+        WebElement signInButton = driver.findElement(By.xpath("//span[contains(text(),'Sign In')]"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(signInButton).perform();
+
+        // Click on the Sign In button
+        signInButton.click();
+
+        // Wait for the Email Id field to be visible
+        WebElement emailField = driver.findElement(By.id("userName"));
+        
+        // Enter valid Email Id
+        emailField.sendKeys("your_email@example.com");
+
+        // Click on the Continue button
+        driver.findElement(By.xpath("//button[contains(text(),'continue')]")).click();
+
+        // Wait for the Password field to be visible
+        WebElement passwordField = driver.findElement(By.id("j_password_login_uc"));
+        
+        // Enter valid Password
+        passwordField.sendKeys("your_password");
+
+        // Click on the Login button
+        driver.findElement(By.xpath("//button[contains(text(),'login')]")).click();
+
+        // Verify login by checking the presence of user profile element
+        WebElement userProfile = driver.findElement(By.xpath("//span[contains(@class,'userProfileIcon')]"));
+        if (userProfile.isDisplayed()) {
+            System.out.println("Login successful. User is logged in.");
+        } else {
+            System.out.println("Login failed. User is not logged in.");
+        }
+
+        // Close the browser
+        driver.quit();
+    }
+}
